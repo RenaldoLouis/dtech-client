@@ -7,7 +7,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import App from './App.tsx';
 import { persistor, store } from "./app/store";
-import './index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
