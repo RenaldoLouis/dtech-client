@@ -2,10 +2,10 @@
 
 export default {
   API: {
-    BASE_URL: "https://api.stage.masareefy.com",
+    BASE_URL: "",
   },
   CLIENT: {
-    BASE_URL: "http://localhost:3000",
+    BASE_URL: "",
   },
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional

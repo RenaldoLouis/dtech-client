@@ -1,11 +1,12 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PURGE } from "redux-persist";
+import { DummyDetails } from './../../constants/interfaces/Expense';
 
 import { ExpenseDetails } from "../../constants/interfaces/Expense";
 
-import { RootState, ThunkPayloadWithData } from "../store";
 import api from "../../services/api";
 import { PaginatedDataResponse } from "../../services/api.types";
+import { RootState, ThunkPayloadWithData } from "../store";
 
 import { checkResponseWithContent } from "../../utils/request";
 
@@ -20,6 +21,7 @@ export interface ExpenseState {
   currPage: number;
   hasNextPage: boolean;
   loader: ExpenseLoaderDetails;
+  dummyDetails: DummyDetails[];
 }
 
 const initialState: ExpenseState = {
@@ -31,6 +33,8 @@ const initialState: ExpenseState = {
     message: "",
     error: undefined,
   },
+
+  dummyDetails: [],
 };
 
 export const expenseSlice = createSlice({
@@ -65,16 +69,16 @@ export const expenseSlice = createSlice({
     },
     setExpenseData: (
       state,
-      action: PayloadAction<PaginatedDataResponse<ExpenseDetails>>
+      action: PayloadAction<PaginatedDataResponse<DummyDetails>>
     ) => {
-      if (state.currPage === 1) {
-        state.expenseDetails = action.payload.data;
-      } else {
-        state.expenseDetails = [
-          ...state.expenseDetails,
-          ...action.payload.data,
-        ];
-      }
+      // if (state.currPage === 1) {
+      state.dummyDetails = action.payload;
+      // } else {
+      //   state.dummyDetails = [
+      //     ...state.dummyDetails,
+      //     ...action.payload.data,
+      //   ];
+      // }
 
       state.currPage += action.payload.next_page ? 1 : 0;
       state.hasNextPage = action.payload.next_page;
@@ -101,11 +105,24 @@ export const getExpensesForEmployee = createAsyncThunk(
     const { data: thunkPayload, onSuccess, onError } = payload;
 
     try {
-      const response = await api.expenses.fetchExpenseForEmployee(thunkPayload);
-
+      let response = await api.expenses.fetchExpenseForEmployee(thunkPayload);
+      response.data = {
+        id: "1",
+        name: "asd",
+      }
       if (checkResponseWithContent(response)) {
-        const paginatedData: PaginatedDataResponse<ExpenseDetails> =
+        const paginatedData: PaginatedDataResponse<DummyDetails> =
           response?.data;
+        // const paginatedData: PaginatedDataResponse<DummyDetails> =
+        // {
+        //   id: "1",
+        //   name: "asd",
+        // },
+        // thunkAPI.dispatch(setExpenseData({
+        //   id: "1",
+        //   name: "asd",
+        // },
+        // ));
         thunkAPI.dispatch(setExpenseData(paginatedData));
         thunkAPI.dispatch(expenseSlice.actions.hideLoader());
         if (onSuccess) onSuccess();

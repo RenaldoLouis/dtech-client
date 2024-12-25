@@ -55,3 +55,7 @@ export interface ExpenseDetails {
   department?: DepartmentDetails;
   employee: UserDetails;
 }
+export interface DummyDetails {
+  id: string;
+  name: string;
+}
