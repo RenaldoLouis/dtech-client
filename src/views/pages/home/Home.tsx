@@ -1,5 +1,5 @@
 import { endOfDay, startOfDay, subDays } from "date-fns";
-import { Button } from 'daya_cipta_erp';
+import { Button, CustomCombobox } from 'daya_cipta_erp';
 import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getExpensesForEmployee, resetExpenses } from '../../../app/slices/expenseSlice';
@@ -75,6 +75,7 @@ const Home = () => {
                     count is {count}
                 </button>
                 <Button label={"asdas"} primary={true}></Button>
+                <CustomCombobox></CustomCombobox>
                 <p>
                     Edit <code>src/App.tsx</code> and save to test HMR
                 </p>
